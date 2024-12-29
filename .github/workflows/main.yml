@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PAT }}
+      - run: echo ${{ secrets.DOCKER_PAT }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       - run: docker build -t pedrompg/docker-react -f Dockerfile.dev .
-      - run: docker run -e CI=true pedrompg/react-react npm test
+      - run: docker run -e CI=true pedrompg/docker-react npm test
+      - run: docker logout
